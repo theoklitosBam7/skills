@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Commit Generator"
+  short_description: "Generate conventional commit messages from staged git changes"
+  default_prompt: "Generate a conventional commit message for my staged changes"
