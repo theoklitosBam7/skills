@@ -2,12 +2,19 @@
 
 A collection of AI agent skills.
 
-## Skills
+## Installation
 
-| Skill | Description |
-|-------|-------------|
-| `git-commit-generator` | Generate conventional commit messages from staged changes |
-| `git-squash-rebase` | Interactive git rebase and squash operations |
+- **git-commit-generator** — Generate conventional commit messages from staged changes
+
+  ```
+  npx skills@latest add theoklitosBam7/skills/git-commit-generator
+  ```
+
+- **git-squash-rebase** — Rebase safely stacked branches
+
+  ```
+  npx skills@latest add theoklitosBam7/skills/git-squash-rebase
+  ```
 
 ## Adding New Skills
 
