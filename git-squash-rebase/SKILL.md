@@ -1,7 +1,7 @@
 ---
 name: git-squash-rebase
 description: >
-  Guides the user through safely rebasing a stacked feature branch (F2) onto
+  Rebases safely a stacked feature branch (F2) onto
   main after a dependent branch (F1) was squash-merged. Use this skill whenever
   the user mentions: stacked branches, a branch built on top of another branch,
   squash-merge conflicts on rebase, duplicate commits after rebase, "rebase onto
