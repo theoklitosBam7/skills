@@ -16,6 +16,12 @@ A collection of AI agent skills.
   npx skills@latest add theoklitosBam7/skills/git-squash-rebase
   ```
 
+- **react-useeffect-guide** — Guide for correct and efficient React useEffect code
+
+  ```
+  npx skills@latest add theoklitosBam7/skills/react-useeffect-guide
+  ```
+
 ## Adding New Skills
 
 To add a new skill, create a directory with:
