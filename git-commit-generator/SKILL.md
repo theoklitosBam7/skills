@@ -44,9 +44,10 @@ BREAKING CHANGE: description (if applicable)
 
 ## Body Rules
 
+- Always use bullet points (prefixed with `- `) when a body is included
+- Each bullet line <= 72 characters
 - Imperative mood (e.g. "Update", "Add", "Fix")
 - Explain WHAT and WHY, not HOW
-- Wrap at 72 characters
 - Omit body entirely if the subject is self-explanatory
 - Use domain-specific terms; avoid generic phrases like "update files" or "make changes"
 - Never mention "staged", "diff", or counts of files/lines
