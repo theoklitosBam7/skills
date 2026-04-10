@@ -16,6 +16,12 @@ A collection of AI agent skills.
   npx skills@latest add theoklitosBam7/skills/git-squash-rebase
   ```
 
+- **marp-presentations** — Create beautiful slide decks from Markdown using Marp
+
+  ```
+  npx skills@latest add theoklitosBam7/skills/marp-presentations
+  ```
+
 - **react-useeffect-guide** — Guide for correct and efficient React useEffect code
 
   ```
