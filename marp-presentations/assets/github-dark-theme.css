@@ -1,0 +1,286 @@
+/*
+ * GitHub Dark Theme for Marp Presentations
+ * A professional, developer-friendly dark theme
+ * 
+ * Usage: Copy this CSS into your presentation's style: frontmatter field
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@300;400;600;700;800&display=swap');
+
+html {
+  font-size: 16px;
+}
+
+:root {
+  --bg-dark: #0d1117;
+  --bg-card: #161b22;
+  --bg-card2: #1c2128;
+  --accent: #f78166;
+  --accent2: #79c0ff;
+  --accent3: #56d364;
+  --accent4: #d2a8ff;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --border: #30363d;
+}
+
+section {
+  background: var(--bg-dark);
+  color: var(--text);
+  font-family: 'Sora', sans-serif;
+  font-size: 0.875rem;
+  padding: 36px 52px;
+}
+
+h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 0.2em;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent2);
+  margin-bottom: 0.4em;
+  margin-top: 0;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.25em;
+}
+
+h3 {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.3em;
+  margin-top: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+p {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text);
+  margin: 0.3em 0;
+}
+
+ul, ol {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--text);
+  padding-left: 1.2em;
+  margin: 0.2em 0;
+}
+
+li::marker {
+  color: var(--accent);
+}
+
+code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg-card2);
+  color: var(--accent3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.05em 0.3em;
+  font-size: 0.85rem;
+}
+
+pre {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8em 1em !important;
+  overflow: hidden;
+  margin: 0.4em 0;
+}
+
+pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--accent3);
+}
+
+blockquote {
+  border-left: 3px solid var(--accent4);
+  background: var(--bg-card);
+  border-radius: 0 6px 6px 0;
+  padding: 0.5em 1em;
+  margin: 0.5em 0;
+  font-style: normal;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+strong {
+  color: var(--accent2);
+  font-weight: 700;
+}
+
+em {
+  color: var(--accent4);
+  font-style: italic;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2em;
+  margin-top: 0.4em;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7em 1em;
+}
+
+.pill {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg-dark);
+  border-radius: 20px;
+  padding: 0.1em 0.7em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-right: 0.4em;
+}
+
+section.title-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--bg-dark);
+  padding: 52px 64px;
+}
+
+section.title-slide h1 {
+  font-size: 2.8rem;
+  background: linear-gradient(135deg, var(--accent2) 0%, var(--accent4) 60%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  margin-bottom: 0.4em;
+}
+
+section.title-slide h2 {
+  border: none;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  padding: 0;
+  margin: 0 0 0.8em 0;
+}
+
+section.title-slide .subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+section.title-slide .tag {
+  display: inline-block;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--accent3);
+  border-radius: 6px;
+  padding: 0.2em 0.8em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  margin-bottom: 1.2em;
+}
+
+section.section-divider {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(135deg, #0d1117 60%, #161b22 100%);
+}
+
+section.section-divider h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+}
+
+section.dark-card {
+  background: var(--bg-card);
+}
+
+.highlight-box {
+  background: linear-gradient(135deg, rgba(121,192,255,0.12), rgba(210,168,255,0.08));
+  border: 1px solid var(--accent2);
+  border-radius: 8px;
+  padding: 0.65em 1em;
+  margin: 0.5em 0;
+  font-size: 0.85rem;
+}
+
+.danger-box {
+  background: rgba(247,129,102,0.1);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 0.65em 1em;
+  margin: 0.5em 0;
+  font-size: 0.85rem;
+}
+
+.success-box {
+  background: rgba(86,211,100,0.1);
+  border: 1px solid var(--accent3);
+  border-radius: 8px;
+  padding: 0.65em 1em;
+  margin: 0.5em 0;
+  font-size: 0.85rem;
+}
+
+section[data-marpit-pagination]::after {
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 1rem;
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border: 1px solid #1f2937;
+}
+
+th {
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+td {
+  background: rgba(17, 24, 39, 0.6);
+  color: var(--fg);
+}
+
+tr:nth-child(even) td {
+  background: rgba(17, 24, 39, 0.8);
+}
+
+td strong {
+  color: var(--accent);
+  font-weight: 600;
+}
