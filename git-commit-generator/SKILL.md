@@ -18,22 +18,21 @@ Generate Conventional Commit messages from staged git changes.
 2. Run `git diff --cached` to review the actual staged changes
 3. Analyze the changes and generate a commit message following the rules below
 4. Output ONLY the commit message — no markdown, no code fences, no commentary
+5. Present 2-3 options to the user
 
 ## Output Format
 
 ```
 type(scope): subject
 
-Body paragraph one.
-Body paragraph two.
+- Body sentence one
+- Body sentence two
 
 BREAKING CHANGE: description (if applicable)
 ```
 
 - Blank line between subject and body
 - Blank line between body and footers
-- Each body line <= 72 chars
-- Body bullets start with `- `
 
 ## Subject Rules
 
