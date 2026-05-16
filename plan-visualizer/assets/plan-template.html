@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITLE}} | Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11.15.0/dist/mermaid.min.js"></script>
+  <style>
+    /* ========== CSS Reset & Variables ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-tertiary: #94a3b8;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --accent: #4f46e5;
+      --accent-light: #818cf8;
+      --accent-bg: rgba(79, 70, 229, 0.06);
+      --accent-bg-strong: rgba(79, 70, 229, 0.12);
+      --glass-bg: rgba(255, 255, 255, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.5);
+      --glass-inner: rgba(255, 255, 255, 0.8);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --sidebar-width: 260px;
+      --header-height: 60px;
+      --green: #16a34a;
+      --green-bg: rgba(22, 163, 74, 0.08);
+      --green-border: rgba(22, 163, 74, 0.25);
+      --amber: #d97706;
+      --amber-bg: rgba(217, 119, 6, 0.08);
+      --amber-border: rgba(217, 119, 6, 0.25);
+      --red: #dc2626;
+      --red-bg: rgba(220, 38, 38, 0.08);
+      --red-border: rgba(220, 38, 38, 0.25);
+      --blue: #2563eb;
+      --blue-bg: rgba(37, 99, 235, 0.08);
+      --blue-border: rgba(37, 99, 235, 0.25);
+      --gray: #64748b;
+      --gray-bg: rgba(100, 116, 139, 0.08);
+      --gray-border: rgba(100, 116, 139, 0.25);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-tertiary: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --border: #334155;
+      --border-strong: #475569;
+      --accent: #818cf8;
+      --accent-light: #a5b4fc;
+      --accent-bg: rgba(129, 140, 248, 0.1);
+      --accent-bg-strong: rgba(129, 140, 248, 0.18);
+      --glass-bg: rgba(30, 41, 59, 0.78);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-inner: rgba(255, 255, 255, 0.06);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.25);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.3);
+      --green: #22c55e;
+      --green-bg: rgba(34, 197, 94, 0.1);
+      --green-border: rgba(34, 197, 94, 0.3);
+      --amber: #fbbf24;
+      --amber-bg: rgba(251, 191, 36, 0.1);
+      --amber-border: rgba(251, 191, 36, 0.3);
+      --red: #f87171;
+      --red-bg: rgba(248, 113, 113, 0.1);
+      --red-border: rgba(248, 113, 113, 0.3);
+      --blue: #60a5fa;
+      --blue-bg: rgba(96, 165, 250, 0.1);
+      --blue-border: rgba(96, 165, 250, 0.3);
+      --gray: #94a3b8;
+      --gray-bg: rgba(148, 163, 184, 0.1);
+      --gray-border: rgba(148, 163, 184, 0.3);
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========== Scroll Progress Bar ========== */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      z-index: 1000;
+      transition: width 0.1s linear;
+    }
+
+    /* ========== Header ========== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: inset 0 1px 0 var(--glass-inner);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 900;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      color: var(--text-primary);
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .header-logo svg { flex-shrink: 0; }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-primary);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-icon:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+    }
+
+    /* ========== Sidebar ========== */
+    .sidebar {
+      position: fixed;
+      top: var(--header-height);
+      left: 0;
+      width: var(--sidebar-width);
+      height: calc(100dvh - var(--header-height));
+      background: var(--bg-primary);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 20px 0;
+      z-index: 800;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sidebar-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+      padding: 16px 20px 6px;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 0 10px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .sidebar-link:hover {
+      background: var(--accent-bg);
+      color: var(--accent);
+    }
+
+    .sidebar-link.active {
+      background: var(--accent-bg-strong);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .sidebar-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-tertiary);
+      flex-shrink: 0;
+      transition: background 0.15s ease;
+    }
+
+    .sidebar-link.active .sidebar-dot {
+      background: var(--accent);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      top: var(--header-height);
+      background: rgba(0,0,0,0.4);
+      z-index: 799;
+    }
+
+    /* ========== Main Content ========== */
+    .main {
+      margin-left: var(--sidebar-width);
+      margin-top: var(--header-height);
+      padding: 32px 40px 80px;
+      max-width: 960px;
+      min-height: calc(100dvh - var(--header-height));
+    }
+
+    /* ========== Sections ========== */
+    .section {
+      margin-bottom: 48px;
+      animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .section:nth-child(1) { animation-delay: 0.05s; }
+    .section:nth-child(2) { animation-delay: 0.1s; }
+    .section:nth-child(3) { animation-delay: 0.15s; }
+    .section:nth-child(4) { animation-delay: 0.2s; }
+    .section:nth-child(5) { animation-delay: 0.25s; }
+    .section:nth-child(6) { animation-delay: 0.3s; }
+    .section:nth-child(7) { animation-delay: 0.35s; }
+    .section:nth-child(8) { animation-delay: 0.4s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-heading {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-heading .heading-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-bg-strong);
+      border-radius: var(--radius-sm);
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .section-heading .heading-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .section p, .section li {
+      color: var(--text-secondary);
+      font-size: 14.5px;
+      line-height: 1.7;
+    }
+
+    /* ========== Glass Card ========== */
+    .card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm), inset 0 1px 0 var(--glass-inner);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md), inset 0 1px 0 var(--glass-inner);
+      transform: translateY(-1px);
+    }
+
+    /* ========== Overview Header ========== */
+    .overview-header {
+      margin-bottom: 24px;
+    }
+
+    .overview-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .overview-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* ========== Badges ========== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+
+    .badge-success  { color: var(--green);  background: var(--green-bg);  border-color: var(--green-border); }
+    .badge-warning  { color: var(--amber);  background: var(--amber-bg);  border-color: var(--amber-border); }
+    .badge-danger   { color: var(--red);    background: var(--red-bg);    border-color: var(--red-border); }
+    .badge-info     { color: var(--blue);   background: var(--blue-bg);   border-color: var(--blue-border); }
+    .badge-accent   { color: var(--accent); background: var(--accent-bg); border-color: var(--accent-border, var(--border-strong)); }
+    .badge-neutral  { color: var(--gray);   background: var(--gray-bg);   border-color: var(--gray-border); }
+
+    /* ========== Stat Cards ========== */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 16px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    /* ========== Summary Box ========== */
+    .summary-box {
+      margin: 16px 0;
+    }
+
+    .summary-box p {
+      font-size: 15px;
+      color: var(--text-secondary);
+    }
+
+    .goal-text {
+      font-weight: 600;
+      color: var(--text-primary);
+      border-left: 3px solid var(--accent);
+      padding-left: 14px;
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    /* ========== Callouts ========== */
+    .callout {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      border-left: 3px solid;
+      margin: 12px 0;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .callout-icon { flex-shrink: 0; margin-top: 1px; }
+
+    .callout-info    { background: var(--blue-bg);   border-color: var(--blue); color: var(--blue); }
+    .callout-warning { background: var(--amber-bg);  border-color: var(--amber); color: var(--amber); }
+    .callout-danger  { background: var(--red-bg);    border-color: var(--red); color: var(--red); }
+    .callout-success { background: var(--green-bg);  border-color: var(--green); color: var(--green); }
+
+    .callout p { color: inherit; }
+
+    .callout-content { color: var(--text-secondary); }
+    .callout-content strong { color: var(--text-primary); }
+
+    /* ========== Task List ========== */
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 16px 0;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .task-item:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .task-item.completed {
+      opacity: 0.55;
+    }
+
+    .task-item.completed .task-title {
+      text-decoration: line-through;
+    }
+
+    .task-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-strong);
+      border-radius: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+      position: relative;
+      transition: all 0.15s ease;
+      background: var(--bg-primary);
+    }
+
+    .task-checkbox:checked {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .task-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 1px;
+      width: 5px;
+      height: 9px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .task-body { flex: 1; }
+
+    .task-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .task-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .task-meta {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      align-items: center;
+    }
+
+    /* ========== Phase Timeline ========== */
+    .phase-timeline {
+      display: flex;
+      gap: 0;
+      margin: 20px 0;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .phase {
+      flex: 1;
+      min-width: 140px;
+      padding: 14px 16px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .phase:first-child { border-radius: var(--radius-md) 0 0 var(--radius-md); }
+    .phase:last-child  { border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+
+    .phase.active {
+      background: var(--accent-bg);
+      border-bottom-color: var(--accent);
+    }
+
+    .phase-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
+
+    .phase-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .phase-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* ========== File Tree ========== */
+    .file-tree {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+
+    .file-tree pre {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      white-space: pre;
+    }
+
+    /* ========== Tables ========== */
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 12px 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    thead {
+      background: var(--bg-tertiary);
+    }
+
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-tertiary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    /* ========== Mermaid Diagram ========== */
+    .mermaid-container {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 12px 0;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      cursor: zoom-in;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+    .mermaid-container:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-bg);
+    }
+    .mermaid-container::after {
+      content: 'Click to expand';
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+    .mermaid-container:hover::after {
+      opacity: 1;
+    }
+    .mermaid { display: flex; justify-content: center; }
+
+    /* ========== Diagram Zoom Modal ========== */
+    .diagram-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 2000;
+      cursor: zoom-out;
+    }
+    .diagram-modal-overlay.open {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .diagram-modal {
+      position: relative;
+      background: var(--bg-primary);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      width: 95vw;
+      height: 92vh;
+      overflow: hidden;
+      cursor: default;
+      padding: 20px;
+      transition: transform 0.15s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #diagramModalContent {
+      flex: 1;
+      overflow: auto;
+      margin-top: 8px;
+      cursor: grab;
+      position: relative;
+      background:
+        linear-gradient(to right, var(--border) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    #diagramModalContent.mode-select {
+      cursor: default;
+    }
+
+    #diagramModalContent.mode-select svg {
+      cursor: text;
+    }
+
+    [data-theme="dark"] #diagramModalContent {
+      background:
+        linear-gradient(to right, var(--border) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    #diagramModalContent.grabbing {
+      cursor: grabbing;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    #diagramCanvas {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 100%;
+      min-height: 100%;
+    }
+
+    #diagramCanvas svg {
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .diagram-modal .mermaid-container {
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      margin: 0;
+      cursor: default;
+      overflow: visible;
+    }
+    .diagram-modal .mermaid-container:hover {
+      border-color: transparent;
+      box-shadow: none;
+    }
+    .diagram-modal .mermaid-container::after {
+      display: none;
+    }
+
+    .diagram-zoom-controls {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 4px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .diagram-zoom-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1;
+      transition: all 0.15s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .diagram-zoom-btn:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--border-strong);
+      color: var(--accent);
+    }
+    .diagram-zoom-btn.zoom-close:hover {
+      background: var(--red-bg);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .diagram-zoom-label {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 2px 10px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* ========== Details / Summary ========== */
+    details {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin: 12px 0;
+      overflow: hidden;
+      background: var(--bg-primary);
+      transition: border-color 0.2s ease;
+    }
+
+    details[open] {
+      border-color: var(--border-strong);
+    }
+
+    summary {
+      padding: 12px 16px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      color: var(--text-primary);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+      transition: background 0.15s ease;
+    }
+
+    summary:hover { background: var(--bg-tertiary); }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+      background-size: contain;
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    details[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .details-body {
+      padding: 0 16px 16px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ========== Code Blocks ========== */
+    code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.88em;
+      background: var(--bg-tertiary);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--accent);
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+    }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay.visible {
+        display: block;
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 24px 16px 60px;
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .phase-timeline {
+        flex-direction: column;
+      }
+
+      .phase,
+      .phase:first-child,
+      .phase:last-child {
+        border-radius: var(--radius-md);
+        margin-bottom: 8px;
+      }
+
+      .overview-title {
+        font-size: 26px;
+      }
+
+      .section-heading {
+        font-size: 19px;
+      }
+    }
+
+    /* ========== Print ========== */
+    @media print {
+      .sidebar,
+      .header,
+      .scroll-progress,
+      .btn-icon,
+      .hamburger,
+      .diagram-modal-overlay {
+        display: none !important;
+      }
+
+      .main {
+        margin-left: 0;
+        margin-top: 0;
+        padding: 0;
+        max-width: none;
+      }
+
+      .section {
+        page-break-inside: avoid;
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+
+      body {
+        background: white;
+        color: black;
+      }
+
+      .card, .task-item, .phase, .file-tree, .mermaid-container {
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <a href="#" class="header-logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        </svg>
+        Plan
+      </a>
+    </div>
+    <div class="header-actions">
+      <button class="btn-icon" id="themeToggle" aria-label="Toggle dark mode">
+        <!-- Moon icon (light mode) -->
+        <svg id="moonIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <!-- Sun icon (dark mode) -->
+        <svg id="sunIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-section-label">Overview</div>
+    <div class="sidebar-nav">
+      <a href="#overview" class="sidebar-link active"><span class="sidebar-dot"></span>Overview</a>
+      <a href="#context" class="sidebar-link"><span class="sidebar-dot"></span>Context</a>
+      <!-- DELETE if non-goals don't apply -->
+      <a href="#non-goals" class="sidebar-link"><span class="sidebar-dot"></span>Non-Goals</a>
+    </div>
+    <div class="sidebar-section-label">Design</div>
+    <div class="sidebar-nav">
+      <a href="#architecture" class="sidebar-link"><span class="sidebar-dot"></span>Architecture</a>
+      <!-- DELETE if no interaction flow -->
+      <a href="#interaction-flow" class="sidebar-link"><span class="sidebar-dot"></span>Interaction Flow</a>
+      <!-- DELETE if no data model -->
+      <a href="#data-model" class="sidebar-link"><span class="sidebar-dot"></span>Data Model</a>
+      <!-- DELETE if no file tree -->
+      <a href="#file-structure" class="sidebar-link"><span class="sidebar-dot"></span>File Structure</a>
+      <!-- DELETE if no API contract -->
+      <a href="#api-contract" class="sidebar-link"><span class="sidebar-dot"></span>API Contract</a>
+    </div>
+    <div class="sidebar-section-label">Execution</div>
+    <div class="sidebar-nav">
+      <a href="#timeline" class="sidebar-link"><span class="sidebar-dot"></span>Timeline</a>
+      <a href="#implementation" class="sidebar-link"><span class="sidebar-dot"></span>Implementation Steps</a>
+      <a href="#testing" class="sidebar-link"><span class="sidebar-dot"></span>Testing Strategy</a>
+      <a href="#decisions" class="sidebar-link"><span class="sidebar-dot"></span>Decisions & Tradeoffs</a>
+      <!-- DELETE if no rollback/migration -->
+      <a href="#rollback" class="sidebar-link"><span class="sidebar-dot"></span>Rollback & Migration</a>
+      <a href="#dependencies" class="sidebar-link"><span class="sidebar-dot"></span>Dependencies</a>
+    </div>
+    <div class="sidebar-section-label">Risk</div>
+    <div class="sidebar-nav">
+      <a href="#risks" class="sidebar-link"><span class="sidebar-dot"></span>Risks & Open Questions</a>
+      <a href="#changelog" class="sidebar-link"><span class="sidebar-dot"></span>Change Log</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- ==================== SECTION 1: OVERVIEW ==================== -->
+    <section class="section" id="overview">
+      <div class="overview-header">
+        <h1 class="overview-title">{{TITLE}}</h1>
+        <div class="overview-meta">
+          <span class="badge badge-accent">{{STATUS}}</span>
+          <span class="badge badge-info">{{DATE}}</span>
+          <span class="badge badge-neutral">by {{AUTHOR}}</span>
+        </div>
+      </div>
+
+      <!-- Stat Cards — pick 3 meaningful metrics -->
+      <div class="stat-grid">
+        <div class="card stat-card">
+          <div class="stat-value">{{STAT_1_VALUE}}</div>
+          <div class="stat-label">{{STAT_1_LABEL}}</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value">{{STAT_2_VALUE}}</div>
+          <div class="stat-label">{{STAT_2_LABEL}}</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value">{{STAT_3_VALUE}}</div>
+          <div class="stat-label">{{STAT_3_LABEL}}</div>
+        </div>
+      </div>
+
+      <div class="summary-box card">
+        <p>{{SUMMARY}}</p>
+        <p class="goal-text">Goal: {{GOAL}}</p>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 5: CONTEXT (optional) ==================== -->
+    <!-- DELETE this entire block if not needed -->
+    <section class="section" id="context">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </span>
+        Context
+      </h2>
+      <p>{{CONTEXT}}</p>
+    </section>
+
+    <!-- ==================== SECTION 6: NON-GOALS (optional) ==================== -->
+    <!-- DELETE this entire block if not needed -->
+    <section class="section" id="non-goals">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+        </span>
+        Non-Goals
+      </h2>
+      <div class="card">
+        <div class="task-list">
+          <div class="task-item">
+            <div class="task-body">
+              <div class="task-title">{{NON_GOAL_1}}</div>
+              <div class="task-desc">{{NON_GOAL_1_DESC}}</div>
+            </div>
+          </div>
+          <div class="task-item">
+            <div class="task-body">
+              <div class="task-title">{{NON_GOAL_2}}</div>
+              <div class="task-desc">{{NON_GOAL_2_DESC}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 2: ARCHITECTURE ==================== -->
+    <section class="section" id="architecture">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        </span>
+        Architecture
+      </h2>
+      <p>{{ARCHITECTURE_DESCRIPTION}}</p>
+
+      <!-- Mermaid flowchart — replace with actual diagram or delete -->
+      <div class="mermaid-container">
+        <pre class="mermaid">
+flowchart TD
+    A[{{COMPONENT_A}}] --> B[{{COMPONENT_B}}]
+    A --> C[{{COMPONENT_C}}]
+    B --> D[{{COMPONENT_D}}]
+    C --> D
+        </pre>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 8: INTERACTION FLOW (optional) ==================== -->
+    <!-- DELETE this entire block if not needed -->
+    <section class="section" id="interaction-flow">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </span>
+        Interaction Flow
+      </h2>
+      <div class="mermaid-container">
+        <pre class="mermaid">
+sequenceDiagram
+    participant C as Client
+    participant A as API
+    participant D as Database
+    C->>A: POST {{ENDPOINT}}
+    A->>D: {{QUERY}}
+    D-->>A: {{RESULT}}
+    A-->>C: {{RESPONSE}}
+        </pre>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 10: DATA MODEL (optional) ==================== -->
+    <!-- DELETE this entire block if not needed -->
+    <section class="section" id="data-model">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        </span>
+        Data Model
+      </h2>
+      <div class="mermaid-container">
+        <pre class="mermaid">
+erDiagram
+    ENTITY_A {
+        string id PK
+        string name
+    }
+    ENTITY_B {
+        string id PK
+        string entity_a_id FK
+    }
+    ENTITY_A ||--o{ ENTITY_B : has
+        </pre>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 14: FILE STRUCTURE (optional) ==================== -->
+    <!-- DELETE this entire block if not needed -->
+    <section class="section" id="file-structure">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </span>
+        File Structure
+      </h2>
+      <div class="file-tree">
+        <pre>{{FILE_TREE}}</pre>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 15: API CONTRACT (optional) ==================== -->
+    <!-- DELETE this entire block if not needed -->
+    <section class="section" id="api-contract">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+        </span>
+        API Contract
+      </h2>
+
+      <details>
+        <summary>Request: {{METHOD}} {{ENDPOINT_PATH}}</summary>
+        <div class="details-body">
+          <p><strong>Headers:</strong></p>
+          <pre><code>{{REQUEST_HEADERS}}</code></pre>
+          <p style="margin-top:8px"><strong>Body:</strong></p>
+          <pre><code>{{REQUEST_EXAMPLE}}</code></pre>
+        </div>
+      </details>
+
+      <details>
+        <summary>Response: {{RESPONSE_STATUS}}</summary>
+        <div class="details-body">
+          <pre><code>{{RESPONSE_EXAMPLE}}</code></pre>
+        </div>
+      </details>
+    </section>
+
+    <!-- ==================== SECTION 9: TIMELINE ==================== -->
+    <!-- DELETE this block if single-phase effort -->
+    <section class="section" id="timeline">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </span>
+        Timeline
+      </h2>
+
+      <!-- Phase Timeline Bar -->
+      <div class="phase-timeline">
+        <div class="phase active">
+          <div class="phase-label">Phase 1</div>
+          <div class="phase-title">{{PHASE_1_TITLE}}</div>
+          <div class="phase-desc">{{PHASE_1_DESC}}</div>
+        </div>
+        <div class="phase">
+          <div class="phase-label">Phase 2</div>
+          <div class="phase-title">{{PHASE_2_TITLE}}</div>
+          <div class="phase-desc">{{PHASE_2_DESC}}</div>
+        </div>
+        <div class="phase">
+          <div class="phase-label">Phase 3</div>
+          <div class="phase-title">{{PHASE_3_TITLE}}</div>
+          <div class="phase-desc">{{PHASE_3_DESC}}</div>
+        </div>
+      </div>
+
+      <!-- Optional Gantt chart -->
+      <div class="mermaid-container">
+        <pre class="mermaid">
+gantt
+    title {{TITLE}} Timeline
+    dateFormat  YYYY-MM-DD
+    section {{PHASE_1_TITLE}}
+    {{STEP_1_TITLE}}   :active, s1, {{PHASE_1_START}}, {{PHASE_1_DURATION}}
+    section {{PHASE_2_TITLE}}
+    {{STEP_2_TITLE}}   :        s2, after s1, {{PHASE_2_DURATION}}
+    section {{PHASE_3_TITLE}}
+    {{STEP_3_TITLE}}   :        s3, after s2, {{PHASE_3_DURATION}}
+        </pre>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 3: IMPLEMENTATION STEPS ==================== -->
+    <section class="section" id="implementation">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </span>
+        Implementation Steps
+      </h2>
+      <div class="card">
+        <div class="task-list">
+          <div class="task-item">
+            <input type="checkbox" class="task-checkbox" aria-label="Mark step 1 complete">
+            <div class="task-body">
+              <div class="task-title">{{STEP_1_TITLE}}</div>
+              <div class="task-desc">{{STEP_1_DESC}}</div>
+              <div class="task-meta">
+                <span class="badge badge-info">{{STEP_1_EST}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="task-item">
+            <input type="checkbox" class="task-checkbox" aria-label="Mark step 2 complete">
+            <div class="task-body">
+              <div class="task-title">{{STEP_2_TITLE}}</div>
+              <div class="task-desc">{{STEP_2_DESC}}</div>
+              <div class="task-meta">
+                <span class="badge badge-info">{{STEP_2_EST}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="task-item">
+            <input type="checkbox" class="task-checkbox" aria-label="Mark step 3 complete">
+            <div class="task-body">
+              <div class="task-title">{{STEP_3_TITLE}}</div>
+              <div class="task-desc">{{STEP_3_DESC}}</div>
+              <div class="task-meta">
+                <span class="badge badge-info">{{STEP_3_EST}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="task-item">
+            <input type="checkbox" class="task-checkbox" aria-label="Mark step 4 complete">
+            <div class="task-body">
+              <div class="task-title">{{STEP_4_TITLE}}</div>
+              <div class="task-desc">{{STEP_4_DESC}}</div>
+              <div class="task-meta">
+                <span class="badge badge-info">{{STEP_4_EST}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="task-item">
+            <input type="checkbox" class="task-checkbox" aria-label="Mark step 5 complete">
+            <div class="task-body">
+              <div class="task-title">{{STEP_5_TITLE}}</div>
+              <div class="task-desc">{{STEP_5_DESC}}</div>
+              <div class="task-meta">
+                <span class="badge badge-info">{{STEP_5_EST}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 12: TESTING STRATEGY (optional) ==================== -->
+    <!-- DELETE this entire block if not needed -->
+    <section class="section" id="testing">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </span>
+        Testing Strategy
+      </h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Test</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>{{TEST_1_TITLE}}</strong></td>
+              <td><span class="badge badge-info">{{TEST_1_TYPE}}</span></td>
+              <td>{{TEST_1_DESC}}</td>
+              <td><span class="badge badge-neutral">Todo</span></td>
+            </tr>
+            <tr>
+              <td><strong>{{TEST_2_TITLE}}</strong></td>
+              <td><span class="badge badge-info">{{TEST_2_TYPE}}</span></td>
+              <td>{{TEST_2_DESC}}</td>
+              <td><span class="badge badge-neutral">Todo</span></td>
+            </tr>
+            <tr>
+              <td><strong>{{TEST_3_TITLE}}</strong></td>
+              <td><span class="badge badge-info">{{TEST_3_TYPE}}</span></td>
+              <td>{{TEST_3_DESC}}</td>
+              <td><span class="badge badge-neutral">Todo</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 11: DECISIONS & TRADEOFFS (optional) ==================== -->
+    <!-- DELETE this entire block if not needed -->
+    <section class="section" id="decisions">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </span>
+        Decisions &amp; Tradeoffs
+      </h2>
+      <div class="task-list">
+        <details>
+          <summary>{{DECISION_1}}</summary>
+          <div class="details-body">
+            <p><strong>Chosen:</strong> {{CHOSEN_1}}</p>
+            <p><strong>Alternatives:</strong> {{ALTERNATIVES_1}}</p>
+            <p><strong>Rationale:</strong> {{RATIONALE_1}}</p>
+          </div>
+        </details>
+        <details>
+          <summary>{{DECISION_2}}</summary>
+          <div class="details-body">
+            <p><strong>Chosen:</strong> {{CHOSEN_2}}</p>
+            <p><strong>Alternatives:</strong> {{ALTERNATIVES_2}}</p>
+            <p><strong>Rationale:</strong> {{RATIONALE_2}}</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 13: ROLLBACK & MIGRATION (optional) ==================== -->
+    <!-- DELETE this entire block if not needed -->
+    <section class="section" id="rollback">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        </span>
+        Rollback &amp; Migration
+      </h2>
+      <div class="callout callout-warning">
+        <div class="callout-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="callout-content">
+          <strong>Rollback Plan:</strong> {{ROLLBACK_PLAN}}
+        </div>
+      </div>
+      <p>{{MIGRATION_NOTES}}</p>
+    </section>
+
+    <!-- ==================== SECTION 7: DEPENDENCIES ==================== -->
+    <section class="section" id="dependencies">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </span>
+        Dependencies
+      </h2>
+      <div class="task-list">
+        <div class="task-item">
+          <div class="task-body">
+            <div class="task-title">{{DEP_1}}</div>
+            <div class="task-desc">{{DEP_1_DESC}}</div>
+          </div>
+        </div>
+        <div class="task-item">
+          <div class="task-body">
+            <div class="task-title">{{DEP_2}}</div>
+            <div class="task-desc">{{DEP_2_DESC}}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 4: RISKS & OPEN QUESTIONS ==================== -->
+    <section class="section" id="risks">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </span>
+        Risks &amp; Open Questions
+      </h2>
+
+      <!-- Callouts: risks, questions, assumptions -->
+      <div class="callout callout-danger">
+        <div class="callout-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </div>
+        <div class="callout-content">
+          <strong>Risk:</strong> {{RISK_1}}
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="callout-content">
+          <strong>Open Question:</strong> {{OPEN_QUESTION_1}}
+        </div>
+      </div>
+
+      <div class="callout callout-success">
+        <div class="callout-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="callout-content">
+          <strong>Assumption:</strong> {{ASSUMPTION_1}}
+        </div>
+      </div>
+
+      <!-- Risk Matrix Table -->
+      <div class="table-wrapper" style="margin-top: 16px;">
+        <table>
+          <thead>
+            <tr>
+              <th>Risk</th>
+              <th>Likelihood</th>
+              <th>Impact</th>
+              <th>Mitigation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{RISK_1}}</td>
+              <td><span class="badge badge-danger">High</span></td>
+              <td><span class="badge badge-warning">Medium</span></td>
+              <td>{{RISK_1_MITIGATION}}</td>
+            </tr>
+            <tr>
+              <td>{{RISK_2}}</td>
+              <td><span class="badge badge-warning">Medium</span></td>
+              <td><span class="badge badge-danger">High</span></td>
+              <td>{{RISK_2_MITIGATION}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 16: CHANGE LOG ==================== -->
+    <section class="section" id="changelog">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </span>
+        Change Log
+      </h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Change</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{CHANGELOG_DATE_1}}</td>
+              <td>{{CHANGELOG_ENTRY_1}}</td>
+              <td>{{CHANGELOG_REASON_1}}</td>
+            </tr>
+            <tr>
+              <td>{{CHANGELOG_DATE_2}}</td>
+              <td>{{CHANGELOG_ENTRY_2}}</td>
+              <td>{{CHANGELOG_REASON_2}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Diagram Zoom Modal -->
+  <div class="diagram-modal-overlay" id="diagramModalOverlay">
+    <div class="diagram-modal" id="diagramModal">
+      <div class="diagram-zoom-controls">
+        <button class="diagram-zoom-btn" id="diagramModeToggle" title="Switch to Select mode" aria-label="Toggle pan/select mode">
+          <svg id="modeIconPan" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 13v-8.5a1.5 1.5 0 0 1 3 0v7.5"/><path d="M11 11.5v-2a1.5 1.5 0 0 1 3 0v2.5"/><path d="M14 10.5a1.5 1.5 0 0 1 3 0v1.5"/><path d="M17 11.5a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7l-.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47"/><path d="M2.541 5.594a13.487 13.487 0 0 1 2.46 -1.427"/><path d="M14 3.458c1.32 .354 2.558 .902 3.685 1.612"/></svg>
+          <svg id="modeIconSelect" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7.904 17.563a1.2 1.2 0 0 0 2.228 .308l2.09 -3.093l4.907 4.907a1.067 1.067 0 0 0 1.509 0l1.047 -1.047a1.067 1.067 0 0 0 0 -1.509l-4.907 -4.907l3.113 -2.09a1.2 1.2 0 0 0 -.309 -2.228l-13.582 -3.904l3.904 13.563"/></svg>
+        </button>
+        <button class="diagram-zoom-btn" id="diagramZoomIn" title="Zoom in" aria-label="Zoom in">+</button>
+        <button class="diagram-zoom-btn" id="diagramZoomOut" title="Zoom out" aria-label="Zoom out">−</button>
+        <button class="diagram-zoom-btn zoom-close" id="diagramZoomClose" title="Close" aria-label="Close">✕</button>
+      </div>
+      <div class="diagram-zoom-label" id="diagramZoomLabel">100%</div>
+      <div id="diagramModalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    // Save original diagram source before Mermaid replaces it
+    document.querySelectorAll('.mermaid').forEach(el => {
+      el.setAttribute('data-original-graph', el.textContent || '');
+    });
+
+    // ========== Mermaid Initialization ==========
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default',
+      securityLevel: 'loose',
+      fontFamily: 'Inter, sans-serif',
+      flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+      sequence: { useMaxWidth: true },
+      gantt: { useMaxWidth: true }
+    });
+
+    // ========== Dark Mode Toggle ==========
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const moonIcon = document.getElementById('moonIcon');
+    const sunIcon = document.getElementById('sunIcon');
+
+    function setTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('plan-theme', theme);
+      if (theme === 'dark') {
+        moonIcon.style.display = 'none';
+        sunIcon.style.display = 'block';
+      } else {
+        moonIcon.style.display = 'block';
+        sunIcon.style.display = 'none';
+      }
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: theme === 'dark' ? 'dark' : 'default',
+        securityLevel: 'loose',
+        fontFamily: 'Inter, sans-serif'
+      });
+      // Re-render diagrams with the new theme using the saved original source
+      document.querySelectorAll('.mermaid').forEach(el => {
+        const graphDef = el.getAttribute('data-original-graph');
+        if (graphDef && graphDef.trim()) {
+          mermaid.render('mermaid-' + Math.random().toString(36).slice(2), graphDef).then(result => {
+            el.innerHTML = result.svg;
+          }).catch(() => {});
+        }
+      });
+    }
+
+    // Restore saved theme
+    const savedTheme = localStorage.getItem('plan-theme');
+    if (savedTheme) setTheme(savedTheme);
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+
+    themeToggle.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // ========== Scroll Progress ==========
+    const scrollProgress = document.getElementById('scrollProgress');
+    function updateScrollProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      scrollProgress.style.width = progress + '%';
+    }
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+
+    // ========== Active Sidebar Link ==========
+    const sections = document.querySelectorAll('.section[id]');
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-80px 0px -60% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          sidebarLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
+
+    // ========== Mobile Sidebar ==========
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    function openSidebar() {
+      sidebar.classList.add('open');
+      overlay.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+    });
+
+    overlay.addEventListener('click', closeSidebar);
+
+    // Close sidebar on link click (mobile)
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) closeSidebar();
+      });
+    });
+
+    // ========== Task Checkboxes ==========
+    document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const taskItem = this.closest('.task-item');
+        if (taskItem) {
+          taskItem.classList.toggle('completed', this.checked);
+        }
+      });
+    });
+
+    // ========== Diagram Zoom Modal (canvas-based) ==========
+    const diagramOverlay = document.getElementById('diagramModalOverlay');
+    const diagramModal = document.getElementById('diagramModal');
+    const diagramContent = document.getElementById('diagramModalContent');
+    const zoomLabel = document.getElementById('diagramZoomLabel');
+    let currentZoom = 1;
+    const ZOOM_STEP = 0.25;
+    const ZOOM_MIN = 0.25;
+    const ZOOM_MAX = 4;
+    let diagramCanvas = null;
+    let svgNaturalWidth = 600;
+    let svgNaturalHeight = 400;
+
+    function applyZoom(zoom) {
+      currentZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom));
+      const svg = diagramCanvas && diagramCanvas.querySelector('svg');
+      if (svg) {
+        svg.style.width = (svgNaturalWidth * currentZoom) + 'px';
+        svg.style.height = (svgNaturalHeight * currentZoom) + 'px';
+      }
+      zoomLabel.textContent = Math.round(currentZoom * 100) + '%';
+    }
+
+    function openDiagramModal(svgContent, containerEl) {
+      diagramContent.innerHTML = '';
+      diagramCanvas = document.createElement('div');
+      diagramCanvas.id = 'diagramCanvas';
+      diagramCanvas.style.width = '3000px';
+      diagramCanvas.style.height = '3000px';
+      diagramCanvas.innerHTML = svgContent;
+      diagramContent.appendChild(diagramCanvas);
+
+      // Always start in pan mode
+      setDiagramMode(true);
+
+      const svg = diagramCanvas.querySelector('svg');
+      if (svg) {
+        svg.style.maxWidth = 'none';
+        svg.style.width = 'auto';
+        svg.style.height = 'auto';
+        try {
+          const bbox = svg.getBBox();
+          svgNaturalWidth = bbox.width || 600;
+          svgNaturalHeight = bbox.height || 400;
+        } catch (e) {
+          svgNaturalWidth = svg.viewBox?.baseVal?.width || 600;
+          svgNaturalHeight = svg.viewBox?.baseVal?.height || 400;
+        }
+      }
+
+      diagramOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+
+      // Wait for layout, then size canvas, apply zoom, and scroll to center
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const contentRect = diagramContent.getBoundingClientRect();
+
+          // Calculate zoom to fit 85% of viewport
+          const fitZoomW = (contentRect.width * 0.85) / svgNaturalWidth;
+          const fitZoomH = (contentRect.height * 0.85) / svgNaturalHeight;
+          const fitZoom = Math.min(fitZoomW, fitZoomH);
+          currentZoom = Math.max(ZOOM_MIN, Math.min(2, fitZoom)) || 1;
+
+          const scaledW = svgNaturalWidth * currentZoom;
+          const scaledH = svgNaturalHeight * currentZoom;
+
+          // Resize canvas to give generous scroll room (3x scaled size)
+          const canvasW = Math.max(contentRect.width, scaledW * 3);
+          const canvasH = Math.max(contentRect.height, scaledH * 3);
+          diagramCanvas.style.width = canvasW + 'px';
+          diagramCanvas.style.height = canvasH + 'px';
+
+          // Apply zoom (set SVG width/height)
+          applyZoom(currentZoom);
+
+          // Scroll to center the diagram
+          const scrollX = (canvasW - contentRect.width) / 2;
+          const scrollY = (canvasH - contentRect.height) / 2;
+          diagramContent.scrollLeft = scrollX;
+          diagramContent.scrollTop = scrollY;
+        });
+      });
+    }
+
+    function closeDiagramModal() {
+      diagramOverlay.classList.remove('open');
+      diagramContent.innerHTML = '';
+      document.body.style.overflow = '';
+      diagramCanvas = null;
+      currentZoom = 1;
+      isPanMode = true;
+    }
+
+    // Attach click handlers to all mermaid containers
+    document.querySelectorAll('.mermaid-container').forEach(container => {
+      container.addEventListener('click', function(e) {
+        if (this.closest('.diagram-modal')) return;
+        const svg = this.querySelector('.mermaid svg');
+        if (svg) openDiagramModal(svg.outerHTML, this);
+      });
+    });
+
+    // Zoom buttons
+    document.getElementById('diagramZoomIn').addEventListener('click', () => applyZoom(currentZoom + ZOOM_STEP));
+    document.getElementById('diagramZoomOut').addEventListener('click', () => applyZoom(currentZoom - ZOOM_STEP));
+    document.getElementById('diagramZoomClose').addEventListener('click', closeDiagramModal);
+
+    // Click overlay backdrop to close
+    diagramOverlay.addEventListener('click', function(e) {
+      if (e.target === diagramOverlay) closeDiagramModal();
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (!diagramOverlay.classList.contains('open')) return;
+      if (e.key === 'Escape') { closeDiagramModal(); return; }
+      if (e.key === '+' || e.key === '=') { e.preventDefault(); applyZoom(currentZoom + ZOOM_STEP); return; }
+      if (e.key === '-') { e.preventDefault(); applyZoom(currentZoom - ZOOM_STEP); return; }
+      if (e.key === '0') { e.preventDefault(); applyZoom(1); return; }
+    });
+
+    // ========== Pan / Select mode toggle ==========
+    let isPanMode = true;
+    const modeToggle = document.getElementById('diagramModeToggle');
+    const modeIconPan = document.getElementById('modeIconPan');
+    const modeIconSelect = document.getElementById('modeIconSelect');
+
+    function setDiagramMode(pan) {
+      isPanMode = pan;
+      if (pan) {
+        diagramContent.classList.remove('mode-select');
+        modeIconPan.style.display = 'block';
+        modeIconSelect.style.display = 'none';
+        modeToggle.title = 'Switch to Select mode';
+      } else {
+        diagramContent.classList.add('mode-select');
+        modeIconPan.style.display = 'none';
+        modeIconSelect.style.display = 'block';
+        modeToggle.title = 'Switch to Pan mode';
+      }
+    }
+
+    modeToggle.addEventListener('click', () => setDiagramMode(!isPanMode));
+
+    // ========== Grab-to-pan via scroll ==========
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let scrollStartX = 0;
+    let scrollStartY = 0;
+
+    diagramContent.addEventListener('mousedown', function(e) {
+      if (!isPanMode || e.button !== 0) return;
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      scrollStartX = diagramContent.scrollLeft;
+      scrollStartY = diagramContent.scrollTop;
+      diagramContent.classList.add('grabbing');
+    });
+
+    window.addEventListener('mousemove', function(e) {
+      if (!isDragging) return;
+      diagramContent.scrollLeft = scrollStartX - (e.clientX - dragStartX);
+      diagramContent.scrollTop = scrollStartY - (e.clientY - dragStartY);
+    });
+
+    window.addEventListener('mouseup', function() {
+      if (!isDragging) return;
+      isDragging = false;
+      diagramContent.classList.remove('grabbing');
+    });
+
+    // Mouse wheel zoom
+    diagramContent.addEventListener('wheel', function(e) {
+      const nextZoom = currentZoom + (e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP);
+      if (nextZoom >= ZOOM_MIN && nextZoom <= ZOOM_MAX) {
+        e.preventDefault();
+        applyZoom(nextZoom);
+      }
+    }, { passive: false });
+  </script>
+</body>
+</html>

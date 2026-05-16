@@ -22,6 +22,12 @@ A collection of AI agent skills.
   npx skills@latest add theoklitosBam7/skills/marp-presentations
   ```
 
+- **plan-visualizer** — Rich self-contained HTML plans with Mermaid diagrams and interactive task tracking
+
+  ```
+  npx skills@latest add theoklitosBam7/skills/plan-visualizer
+  ```
+
 - **react-useeffect-guide** — Guide for correct and efficient React useEffect code
 
   ```

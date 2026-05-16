@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan Visualizer"
+  short_description: "Rich visual HTML plans from agent"
+  default_prompt: "Use $plan-visualizer to create a visual HTML plan for this task."
