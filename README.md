@@ -34,6 +34,12 @@ A collection of AI agent skills.
   npx skills@latest add theoklitosBam7/skills/react-useeffect-guide
   ```
 
+- **babysit** — Keep a PR merge-ready by triaging comments, resolving conflicts, and fixing CI *(originally from Cursor)*
+
+  ```
+  npx skills@latest add theoklitosBam7/skills/babysit
+  ```
+
 - **split-to-prs** — Split current work into small reviewable PRs *(originally from Cursor)*
 
   ```
