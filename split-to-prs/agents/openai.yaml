@@ -1,0 +1,4 @@
+interface:
+  display_name: "Split to PRs"
+  short_description: "Split work into small reviewable PRs"
+  default_prompt: "Use $split-to-prs to split my current changes into separate reviewable PRs."

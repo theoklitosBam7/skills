@@ -34,6 +34,12 @@ A collection of AI agent skills.
   npx skills@latest add theoklitosBam7/skills/react-useeffect-guide
   ```
 
+- **split-to-prs** — Split current work into small reviewable PRs *(originally from Cursor)*
+
+  ```
+  npx skills@latest add theoklitosBam7/skills/split-to-prs
+  ```
+
 ## Adding New Skills
 
 To add a new skill, create a directory with:
