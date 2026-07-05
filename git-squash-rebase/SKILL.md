@@ -1,101 +1,100 @@
 ---
 name: git-squash-rebase
 description: >
-  Safely rebase a stacked child branch onto main after its parent branch was
-  squash-merged, avoiding duplicate parent commits and rebase conflicts caused
-  by replaying already-merged work. Use when the user mentions stacked branches,
-  dependent PRs, a branch built on another branch, squash-merge rebase problems,
-  duplicate commits after rebasing, updating a child branch after the parent PR
-  merged, or phrases like "rebase onto main after PR merged", "my rebase is
-  replaying the old branch", "how do I update F2 after F1 was squash-merged",
-  or "my stacked PR workflow is broken".
+  Squash-rebase stacked branches after a parent PR was squash-merged. Use when
+  updating a child branch built on a merged parent, fixing duplicate parent
+  commits after rebasing, or repairing a stacked PR workflow that is replaying
+  old branch commits.
 ---
 
-# Git Squash-Rebase: Stacked Branch Workflow
+# Git Squash-Rebase
 
-## Core problem
+## Mental model
 
-When a parent branch (F1) is **squash-merged** into `main`, Git creates a new
-commit on `main` with no SHA relationship to the original F1 commits. If a child
-branch (F2) was built on top of F1, a naive `git rebase main` may replay the old
-F1 commits again, causing duplicate commits and avoidable conflicts.
+After a parent branch is **squash-merged**, `main` contains a new squash commit,
+not the parent's original commits. A child branch still based on those original
+commits must be moved with:
 
-Use `git rebase --onto` to say: replay only F2's own commits onto updated
-`main`, excluding the commits already reachable from the old F1 tip.
+```text
+git rebase --onto <new-base> <old-parent-tip> <child-branch>
+```
 
-## Preconditions to establish first
+Read it as: move `<child-branch>` onto `<new-base>`, bringing only commits after
+`<old-parent-tip>`.
 
-Before giving or running commands, identify:
+## Workflow
 
-- **Base branch**: usually `main` (confirm if the repo uses `master`, `develop`, etc.)
-- **F1 / parent branch**: the branch that was squash-merged
-- **F2 / child branch**: the branch to update
-- **Old F1 tip**: the commit at the top of F1 before/when F2 branched from it
-- **Working tree state**: whether F2 has uncommitted or untracked changes
-- **Remote state**: whether F2 has already been pushed and will need a force-with-lease push
+### 1. Establish the boundary
 
-Do not guess branch names. If the F1 branch was deleted or moved, ask the user
-for the old F1 tip SHA, recover it from reflog, or inspect the PR history.
+Identify, without guessing:
 
-## Safe workflow
+- `<new-base>`: usually `main`, but confirm the repo's base branch.
+- `<parent-branch>`: the branch that was squash-merged.
+- `<child-branch>`: the branch to update.
+- `<old-parent-tip>`: the parent tip before the squash merge, or the commit where
+  the child stopped being parent work and started being child work.
+- Working tree state: clean, dirty tracked files, and untracked files.
+- Remote state: whether the child branch was pushed.
 
-### 1. Save current state
+Useful probes:
 
 ```bash
 git status --short
 git branch --show-current
-git rev-parse <F2-branch-name>
-git rev-parse <F1-branch-name>  # or the old F1 tip SHA, if branch is gone/moved
+git rev-parse <child-branch>
+git rev-parse <parent-branch>  # only valid if it still points at the old parent tip
 ```
 
-If there are uncommitted changes on F2, stash them, including untracked files:
+If the parent branch was deleted, moved, rebased, or recreated, ask for the old
+parent tip SHA or recover it from reflog / PR history before continuing.
+
+**Complete when:** the base, child, old parent tip, working tree state, and remote
+push status are all known.
+
+### 2. Protect local work
+
+If the child branch has uncommitted changes, stash tracked and untracked files:
 
 ```bash
-git stash push -u -m "before stacked rebase of <F2-branch-name>"
+git stash push -u -m "before squash-rebase of <child-branch>"
 ```
 
-Skip the stash when the working tree is clean.
+Skip this when the working tree is clean.
 
-### 2. Update the base branch
+**Complete when:** no uncommitted work can be overwritten by the rebase, or the
+user explicitly chooses another safe path such as committing it.
 
-Prefer `fetch` plus an explicit local update so the command works even when the
-current branch is not `main`:
+### 3. Update the new base
 
 ```bash
 git fetch origin
-git switch main
-git pull --ff-only origin main
+git switch <new-base>
+git pull --ff-only origin <new-base>
 ```
 
-Replace `main` with the confirmed base branch if needed.
+**Complete when:** the local `<new-base>` is up to date with its upstream.
 
-### 3. Rebase F2 with `--onto`
+### 4. Move the child with `--onto`
 
 ```bash
-git rebase --onto main <old-F1-tip-or-F1-branch-name> <F2-branch-name>
+git rebase --onto <new-base> <old-parent-tip> <child-branch>
 ```
 
-Meaning:
-
-- `main` = new base to land on
-- `<old-F1-tip-or-F1-branch-name>` = exclude commits reachable from the old parent tip
-- `<F2-branch-name>` = branch to rewrite
-
-This replays commits in the range:
+This replays:
 
 ```text
-<old-F1-tip-or-F1-branch-name>..<F2-branch-name>
+<old-parent-tip>..<child-branch>
 ```
 
-onto `main`.
+onto `<new-base>`. If the child has no commits of its own, it simply moves to the
+new base.
 
-If F2 has no commits of its own, the branch simply moves to `main` with nothing
-to replay.
+**Complete when:** the rebase finishes, or it stops only on conflicts from the
+child's own commits against the updated base.
 
-### 4. Resolve conflicts, if any
+### 5. Resolve or abort
 
-Conflicts now should be from F2's own changes against updated `main`, not from
-replaying all of F1. Resolve normally:
+For expected conflicts:
 
 ```bash
 git status
@@ -104,81 +103,86 @@ git add <resolved-file>
 git rebase --continue
 ```
 
-Abort if the wrong commits are being replayed or the chosen F1 boundary is wrong:
+Abort if Git is replaying parent commits, the boundary is wrong, or the conflict
+set is clearly from already-merged parent work:
 
 ```bash
 git rebase --abort
 ```
 
-### 5. Restore stashed work
+**Complete when:** the rebase finishes with the intended child commits only, or
+it is aborted before rewriting the wrong history further.
+
+### 6. Restore stashed work
+
+If step 2 created a stash:
 
 ```bash
-git switch <F2-branch-name>
+git switch <child-branch>
 git stash pop
 ```
 
-Skip when nothing was stashed. Resolve stash-pop conflicts like ordinary working
-tree conflicts.
+Resolve stash-pop conflicts as ordinary working tree conflicts.
 
-### 6. Verify before pushing
+**Complete when:** any stashed work is restored or intentionally left in the
+stash with the stash reference noted.
 
-```bash
-# Should list only F2's own commits after main
-git log --oneline main..HEAD
-
-# Should be empty or only intentional differences from F2
-git diff --stat main...HEAD
-
-# Compare with the intended replay range if unsure
-git log --oneline <old-F1-tip-or-F1-branch-name>..<F2-branch-name>
-```
-
-Important: `git log main..HEAD` should **not** include old F1 commit SHAs. The
-squashed F1 commit is already on `main`, so it also will not appear in
-`main..HEAD`.
-
-### 7. Push the rewritten child branch
-
-If F2 was already pushed, update the remote with lease protection:
+### 7. Verify before pushing
 
 ```bash
-git push --force-with-lease origin <F2-branch-name>
+# Should list only the child branch's own commits
+git log --oneline <new-base>..HEAD
+
+# Should show only intentional child differences
+git diff --stat <new-base>...HEAD
+
+# Optional boundary check
+git log --oneline <old-parent-tip>..<child-branch>
 ```
 
-Do not use plain `--force` unless explicitly requested and understood.
+The old parent commit SHAs must not appear in `<new-base>..HEAD`. The squash
+commit from the parent PR is already on `<new-base>`, so it should not appear
+there either.
 
-## Common pitfalls
+**Complete when:** every commit and diff shown is intended child work.
 
-- **Using the wrong F1 boundary**: `--onto main F1 F2` only works if `F1` still
-  points at the old parent tip. If F1 was deleted, recreated, rebased, or moved,
-  use the exact old tip SHA instead.
-- **Running naive `git rebase main` first**: abort if still in progress, then use
-  `--onto` with the correct old parent boundary.
-- **Dirty working tree**: stash or commit before rebasing. Include `-u` if there
-  are untracked files.
-- **Multiple children**: record old tips before rewriting branches.
+### 8. Push with lease protection
+
+If the child branch was already pushed:
+
+```bash
+git push --force-with-lease origin <child-branch>
+```
+
+Do not use plain `--force` unless the user explicitly asks for it and accepts the
+risk.
+
+**Complete when:** the remote child branch points at the verified rewritten
+history, or the user chooses not to push yet.
 
 ## Deeper stacks
 
-Work bottom-up. Before rebasing F2, capture the old tips of any descendants:
+Work bottom-up. Before moving a branch, save the old tip needed by its child:
 
 ```bash
 git rev-parse F2  # save as <old-F2-tip>
 ```
 
-After F2 is updated, rebase F3 onto the new F2 while excluding the old F2 tip:
+After F2 is moved, rebase F3 onto the new F2 while excluding the old F2 tip:
 
 ```bash
 git rebase --onto F2 <old-F2-tip> F3
 ```
 
-Repeat for F4, F5, etc.
+Repeat for each descendant. Each step is complete only when the next child's
+exclude boundary has been recorded before its parent is rewritten.
 
-## Mental model
+## Pitfalls
 
-```text
-git rebase --onto <new-base> <exclude-up-to> <branch-to-move>
-```
-
-Read it as: move `<branch-to-move>` onto `<new-base>`, bringing only commits
-after `<exclude-up-to>`.
+- `git rebase --onto <new-base> <parent-branch> <child-branch>` is safe only if
+  `<parent-branch>` still points at the old parent tip.
+- A naive `git rebase <new-base>` may replay parent commits. Abort it and restart
+  with the correct `--onto` boundary.
+- Dirty worktrees need a stash or commit before rebasing; include `-u` when
+  untracked files matter.
+- Multiple children require saving old tips before rewriting their parents.
