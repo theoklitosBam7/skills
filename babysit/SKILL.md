@@ -1,5 +1,6 @@
 ---
 name: babysit
+disable-model-invocation: true
 description: >-
   Keep a PR merge-ready by triaging comments, resolving clear conflicts, and
   fixing CI in a loop.

@@ -2,3 +2,6 @@ interface:
   display_name: "Babysit PR"
   short_description: "Keep a PR merge-ready by triaging issues"
   default_prompt: "Use $babysit to keep my PR merge-ready by resolving conflicts, addressing comments, and fixing CI."
+
+policy:
+  allow_implicit_invocation: false

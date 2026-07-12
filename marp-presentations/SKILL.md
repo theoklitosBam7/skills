@@ -1,5 +1,6 @@
 ---
 name: marp-presentations
+disable-model-invocation: false
 description: Create beautiful, professional slide decks from Markdown using Marp (Markdown Presentation Ecosystem). Use when the user wants to create, edit, or modify presentations, slide decks, or speaker notes in Markdown format. Triggers on keywords like "presentation", "slides", "slide deck", "marp", "speaker notes", or when working with .md files that have marp frontmatter.
 ---
 

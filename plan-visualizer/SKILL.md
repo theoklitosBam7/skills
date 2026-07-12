@@ -1,5 +1,6 @@
 ---
 name: plan-visualizer
+disable-model-invocation: false
 description: |
   Creates rich, self-contained HTML plan files with visual diagrams, flows, and
   interactive elements. Output goes to ~/.agent/plans/ with a timestamped filename.

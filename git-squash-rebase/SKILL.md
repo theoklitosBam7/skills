@@ -1,5 +1,6 @@
 ---
 name: git-squash-rebase
+disable-model-invocation: true
 description: >
   Squash-rebase stacked branches after a parent PR was squash-merged. Use when
   updating a child branch built on a merged parent, fixing duplicate parent

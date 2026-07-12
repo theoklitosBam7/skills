@@ -1,4 +1,7 @@
 interface:
   display_name: "Marp Presentations"
-  short_description: "Create beautiful slide decks from Markdown using Marp"
-  default_prompt: "Create a Marp presentation"
+  short_description: "Create Markdown slide decks with Marp"
+  default_prompt: "Use $marp-presentations to create a professional Marp presentation from Markdown."
+
+policy:
+  allow_implicit_invocation: true

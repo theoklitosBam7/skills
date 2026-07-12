@@ -2,3 +2,6 @@ interface:
   display_name: "Git Squash Rebase"
   short_description: "Rebase stacked branches after squash merge"
   default_prompt: "Use $git-squash-rebase to help rebase a stacked feature branch onto main after its parent was squash-merged."
+
+policy:
+  allow_implicit_invocation: false

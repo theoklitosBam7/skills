@@ -50,8 +50,17 @@ A collection of AI agent skills.
 
 To add a new skill, create a directory with:
 
-- `SKILL.md` — documentation and usage instructions
-- `agents/` — agent configuration files
+- `SKILL.md` — documentation, usage instructions, and cross-harness metadata
+- `agents/openai.yaml` — Codex interface and invocation metadata
+
+### Metadata conventions
+
+- Start `interface.default_prompt` with `Use $<skill-name> ...`.
+- Set `policy.allow_implicit_invocation` in `agents/openai.yaml`.
+- Set `disable-model-invocation` in the `SKILL.md` frontmatter for Pi, Claude Code, and other compatible harnesses.
+- Keep the invocation flags as logical inverses:
+  - Implicit invocation enabled: `allow_implicit_invocation: true` and `disable-model-invocation: false`
+  - Explicit invocation only: `allow_implicit_invocation: false` and `disable-model-invocation: true`
 
 ## Structure
 

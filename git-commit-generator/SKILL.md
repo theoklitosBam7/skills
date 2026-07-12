@@ -1,5 +1,6 @@
 ---
 name: git-commit-generator
+disable-model-invocation: false
 description: >
   Generate Conventional Commit messages from staged git changes. Analyzes diffs and produces
   properly formatted commit messages following the Conventional Commits specification.

@@ -1,5 +1,6 @@
 ---
 name: react-useeffect-guide
+disable-model-invocation: false
 description: >
   Effect discipline for React code. Use when writing, reviewing, or refactoring
   useEffect, cleanup functions, dependency arrays, useLayoutEffect, data fetching

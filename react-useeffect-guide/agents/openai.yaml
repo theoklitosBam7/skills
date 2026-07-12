@@ -1,4 +1,7 @@
 interface:
   display_name: "React useEffect Guide"
-  short_description: "Guide for correct and efficient React useEffect code"
-  default_prompt: "Review this useEffect code for correctness and efficiency"
+  short_description: "Review React useEffect code and patterns"
+  default_prompt: "Use $react-useeffect-guide to review this useEffect code for correctness and efficiency."
+
+policy:
+  allow_implicit_invocation: true
