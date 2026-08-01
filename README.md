@@ -28,6 +28,12 @@ A collection of AI agent skills.
   npx skills@latest add theoklitosBam7/skills/plan-visualizer
   ```
 
+- **pnpm-dependency-upgrade-audit** — Audit pnpm upgrades safely
+
+  ```
+  npx skills@latest add theoklitosBam7/skills/pnpm-dependency-upgrade-audit
+  ```
+
 - **react-useeffect-guide** — Guide for correct and efficient React useEffect code
 
   ```

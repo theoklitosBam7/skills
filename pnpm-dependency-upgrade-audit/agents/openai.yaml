@@ -1,0 +1,7 @@
+interface:
+  display_name: "pnpm Upgrade Audit"
+  short_description: "Audit pnpm upgrades safely"
+  default_prompt: "Use $pnpm-dependency-upgrade-audit to audit outdated dependencies across a pnpm monorepo without changing files."
+
+policy:
+  allow_implicit_invocation: false
