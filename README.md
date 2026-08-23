@@ -4,6 +4,18 @@ A collection of AI agent skills.
 
 ## Installation
 
+- **babysit** — Keep a PR merge-ready by triaging comments, resolving conflicts, and fixing CI *(originally from Cursor)*
+
+  ```
+  npx skills@latest add theoklitosBam7/skills/babysit
+  ```
+
+- **create-pull-request** — Create a GitHub pull request with the GitHub MCP server
+
+  ```
+  npx skills@latest add theoklitosBam7/skills/create-pull-request
+  ```
+
 - **git-commit-generator** — Generate conventional commit messages from staged changes
 
   ```
@@ -38,12 +50,6 @@ A collection of AI agent skills.
 
   ```
   npx skills@latest add theoklitosBam7/skills/react-useeffect-guide
-  ```
-
-- **babysit** — Keep a PR merge-ready by triaging comments, resolving conflicts, and fixing CI *(originally from Cursor)*
-
-  ```
-  npx skills@latest add theoklitosBam7/skills/babysit
   ```
 
 - **split-to-prs** — Split current work into small reviewable PRs *(originally from Cursor)*

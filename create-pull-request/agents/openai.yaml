@@ -1,0 +1,7 @@
+interface:
+  display_name: "Create Pull Request"
+  short_description: "Create a PR with GitHub MCP"
+  default_prompt: "Use $create-pull-request to create a GitHub pull request from the current branch with the GitHub MCP server."
+
+policy:
+  allow_implicit_invocation: false
